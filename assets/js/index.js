@@ -5,7 +5,7 @@ function initMap() {
   // class is created. It selects the HTML element with the ID "map" and
   // sets the initial zoom level and center coordinates of the map.
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 4,
+    zoom: 5,
     center: {
       // lat: 46.619261,
       // lng: -33.134766,
@@ -33,6 +33,7 @@ function initMap() {
     return new google.maps.Marker({
       position: location,
       label: labels[i % labels.length],
+      map: map, //add markers to the map if code on line 43 is ommited
     });
   });
 
