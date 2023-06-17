@@ -1,0 +1,65 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Maps IPI</title>
+    <style>
+      #map {
+        margin: 100px auto;
+        width: 80%;
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      // initMap function is an entry point for initializing the Google Map.
+      function initMap() {
+        // constant pos is declared and assigned an object that represents the latitude and longitude
+        // of a specific location on the map.
+        const pos = { lat: 50.83269747647904, lng: 12.899849348281023 };
+
+        // constant opt is declared and assigned an object with configuration options for the map.
+        // It specifies the center of the map (using the same coordinates as pos) and the initial zoom level.
+        const opt = {
+          center: { lat: 50.83269747647904, lng: 12.899849348281023 },
+          zoom: 17,
+        };
+
+        // The myMap variable is created using the google.maps.Map constructor. It takes two arguments:
+        // the element where the map should be rendered (identified by its ID, "map" in this case), and
+        // the options defined in the opt constant.
+        const myMap = new google.maps.Map(document.getElementById("map"), opt);
+
+        // A marker is created using the google.maps.Marker constructor. It is positioned at the coordinates
+        // specified in the pos constant and associated with the myMap instance. The marker is also given a
+        // title that will be displayed when the user hovers over it.
+        const marker = new google.maps.Marker({
+          position: pos,
+          map: myMap,
+          title: "Hübschmannstraße, 20",
+        });
+
+        // An info window is created using the google.maps.InfoWindow constructor. It is initialized with some
+        // HTML content that will be displayed when the info window is opened.
+        const info = new google.maps.InfoWindow({
+          content: "<h3>Hello everybody</h3>",
+        });
+
+        // An event listener is added to the marker using the addListener method. It listens for a "click" event
+        // on the marker and, when triggered, opens the info window on the myMap instance at the location of the marker.
+        marker.addListener("click", () => {
+          info.open(myMap, marker);
+        });
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEuajnioQvuMxOiLE0WvlfXbsZ8WQHF6U&callback=initMap&v=weekly"
+      async
+      defer
+    ></script>
+  </body>
+</html>
+<!-- AIzaSyBEuajnioQvuMxOiLE0WvlfXbsZ8WQHF6U -->
