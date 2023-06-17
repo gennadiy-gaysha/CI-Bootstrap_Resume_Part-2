@@ -1,108 +1,45 @@
-// function initMap() {
-//   const map = new google.maps.Map(document.getElementById("map"), {
-//     zoom: 3,
-//     center: { lat: 46.619261, lng: -33.134766 },
-//   });
-//   //   const infoWindow = new google.maps.InfoWindow({
-//   //     content: "",
-//   //     disableAutoPan: true,
-//   //   });
-//   // Create an array of alphabetical characters used to label the markers.
-//   const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//   // Add some markers to the map.
-//   //   const markers = locations.map((position, i) => {
-//   //     const label = labels[i % labels.length];
-//   //     const marker = new google.maps.Marker({
-//   //       position,
-//   //       label,
-//   //     });
-
-//   //     // markers can only be keyboard focusable when they have click listeners
-//   //     // open info window when marker is clicked
-//   //     marker.addListener("click", () => {
-//   //       infoWindow.setContent(label);
-//   //       infoWindow.open(map, marker);
-//   //     });
-//   //     return marker;
-//   //   });
-
-//   //   // Add a marker clusterer to manage the markers.
-//   //   new MarkerClusterer({ markers, map });
-//   const locations = [
-//     { lat: 40.785091, lng: -73.968285 },
-//     { lat: 41.084045, lng: -73.874245 },
-//     { lat: 40.754932, lng: -73.984016 },
-//   ];
-
-//   // Add some markers to the map.
-//   const markers = locations.map(function (location, i) {
-//     return new google.maps.Marker({
-//       position: location,
-//       label: labels[i % labels.length],
-//     });
-//   });
-
-//   // Add a marker clusterer to manage the markers.
-//   new MarkerClusterer({ markers, map });
-// }
-
+// The initMap function is defined. This function serves as the entry
+// point for initializing the Google Map and marker clustering.
 function initMap() {
+  // Inside the initMap function, a new instance of the google.maps.Map
+  // class is created. It selects the HTML element with the ID "map" and
+  // sets the initial zoom level and center coordinates of the map.
   const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 3,
-    center: { lat: -28.024, lng: 140.887 },
-  });
-  const infoWindow = new google.maps.InfoWindow({
-    content: "",
-    disableAutoPan: true,
-  });
-  // Create an array of alphabetical characters used to label the markers.
-  const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  // Add some markers to the map.
-  const markers = locations.map((position, i) => {
-    const label = labels[i % labels.length];
-    const marker = new google.maps.Marker({
-      position,
-      label,
-    });
-
-    // markers can only be keyboard focusable when they have click listeners
-    // open info window when marker is clicked
-    marker.addListener("click", () => {
-      infoWindow.setContent(label);
-      infoWindow.open(map, marker);
-    });
-    return marker;
+    zoom: 4,
+    center: {
+      // lat: 46.619261,
+      // lng: -33.134766,
+      lat: 40.785091,
+      lng: -73.968285,
+    },
   });
 
-  // Add a marker clusterer to manage the markers.
-  //   new MarkerClusterer({ markers, map });
+  // An array named locations is declared, which contains objects representing
+  // the latitude and longitude coordinates of different locations on the map.
+  // In this example, there are three locations specified.
+  const locations = [
+    { lat: 40.785091, lng: -73.968285 },
+    { lat: 41.084045, lng: -73.874245 },
+    { lat: 40.754932, lng: -73.948016 },
+  ];
+
+  // The map array is created using the map method on the locations array. It creates
+  // an array of markers based on the provided locations array. For each location, a new
+  // google.maps.Marker object is created with the corresponding latitude and longitude.
+  // The label property of the marker is set to an alphabetical character based on the
+  // index of the location in the locations array.
+  const markers = locations.map(function (location, i) {
+    const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return new google.maps.Marker({
+      position: location,
+      label: labels[i % labels.length],
+    });
+  });
+
+  // A new instance of the MarkerClusterer class is created. It takes two arguments:
+  // the map object and the markers array. This will cluster the markers on the map
+  // according to their proximity.
   const markerCluster = new markerClusterer.MarkerClusterer({ map, markers });
 }
-
-const locations = [
-  { lat: -31.56391, lng: 147.154312 },
-  { lat: -33.718234, lng: 150.363181 },
-  { lat: -33.727111, lng: 150.371124 },
-  { lat: -33.848588, lng: 151.209834 },
-  { lat: -33.851702, lng: 151.216968 },
-  { lat: -34.671264, lng: 150.863657 },
-  { lat: -35.304724, lng: 148.662905 },
-  { lat: -36.817685, lng: 175.699196 },
-  { lat: -36.828611, lng: 175.790222 },
-  { lat: -37.75, lng: 145.116667 },
-  { lat: -37.759859, lng: 145.128708 },
-  { lat: -37.765015, lng: 145.133858 },
-  { lat: -37.770104, lng: 145.143299 },
-  { lat: -37.7737, lng: 145.145187 },
-  { lat: -37.774785, lng: 145.137978 },
-  { lat: -37.819616, lng: 144.968119 },
-  { lat: -38.330766, lng: 144.695692 },
-  { lat: -39.927193, lng: 175.053218 },
-  { lat: -41.330162, lng: 174.865694 },
-  { lat: -42.734358, lng: 147.439506 },
-  { lat: -42.734358, lng: 147.501315 },
-  { lat: -42.735258, lng: 147.438 },
-  { lat: -43.999792, lng: 170.463352 },
-];
 
 window.initMap = initMap;
