@@ -16,6 +16,27 @@ function userInformationHTML(user) {
 </div>`;
 }
 
+function repoInformationHTML(repos) {
+  if (repos.length == 0) {
+    return `<div class="clearfix repo-list">No repos!</div>`;
+  }
+
+  let listItemsHTML = repos.map(function (repo) {
+    return `<li>
+        <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+      </li>`;
+  });
+
+  return `<div class="clearfix repo-list">
+  				<p>
+					<strong>Repo List:</strong>
+				</p>
+  				<ul>
+    				${listItemsHTML.join("\n")}
+  				</ul>
+				</div>`;
+}
+
 function fetchGitHubInformation(event) {
   // retrieves the value entered in an input field with the ID gh-username.
   // This value represents the GitHub username that the user wants to fetch
@@ -36,8 +57,7 @@ function fetchGitHubInformation(event) {
   			<img src="assets/css/loader.gif" alt="loading..." />
      </div>`
   );
-  const token =
-    "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";
+  const token = "YOUR-TOKEN";
   // Promise: It makes an AJAX request to the GitHub API using the $.getJSON() function and
   // the provided GitHub username. The $.when() function is used to ensure that the request
   // completes before executing the next steps.
@@ -45,15 +65,26 @@ function fetchGitHubInformation(event) {
   // In this updated code, the $.ajax() function is used instead of $.getJSON() to have more control over
   // the headers. The headers are set within the headers property of the $.ajax() function, ensuring that
   // they are correctly included in the request.
-  $.ajax({
+  const userRequest = $.ajax({
     url: `https://api.github.com/users/${username}`,
     headers: {
       Authorization: `Bearer ${token}`,
       "X-GitHub-Api-Version": "2022-11-28",
     },
-  }).then(
-    function (response) {
-      let userData = response;
+  });
+
+  const repoRequest = $.ajax({
+    url: `https://api.github.com/users/${username}/repos`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
+
+  $.when(userRequest, repoRequest).then(
+    function (firstResponse, secondResponse) {
+      let userData = firstResponse[0];
+      let repoData = secondResponse[0];
 
       // If the request is successful (status code 200), the response data is stored in the
       // userData variable. The function userInformationHtml(userData) is then called to generate
@@ -62,6 +93,7 @@ function fetchGitHubInformation(event) {
       // The generated HTML code is added to the element with the ID gh-user-data, replacing the
       // loading spinner. The user's GitHub information is now displayed on the page.
       $("#gh-user-data").html(userInformationHTML(userData));
+      $("#gh-repo-data").html(repoInformationHTML(repoData));
     },
 
     // If the request encounters an error, the error response is captured in the errorResponse
