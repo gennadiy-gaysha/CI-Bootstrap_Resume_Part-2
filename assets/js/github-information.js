@@ -1,3 +1,21 @@
+function userInformationHTML(user) {
+  return `<h2>
+  ${user.name}
+  <span class="small-name"> (@<a href="${user.html_url}" target="_blank">${user.login}</a>) </span>
+</h2>
+<div class="gh-content">
+  <div class="gh-avatar">
+    <a href="${user.html_url}" target="_blank">
+      <img src="${user.avatar_url}" width="80" height="80" alt="${user.login}" />
+    </a>
+  </div>
+  <p>
+    Followers: ${user.followers} - Following ${user.following} <br />
+    Repos: ${user.public_repos}
+  </p>
+</div>`;
+}
+
 function fetchGitHubInformation(event) {
   // retrieves the value entered in an input field with the ID gh-username.
   // This value represents the GitHub username that the user wants to fetch
@@ -22,7 +40,14 @@ function fetchGitHubInformation(event) {
   // Promise: It makes an AJAX request to the GitHub API using the $.getJSON() function and
   // the provided GitHub username. The $.when() function is used to ensure that the request
   // completes before executing the next steps.
-  $.when($.getJSON(`https://api.github.com/users/{username}`)).then(
+  $.when(
+    $.getJSON(`https://api.github.com/users/${username}`, {
+      headers: {
+        Authorization:
+          "Bearer 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",
+      },
+    })
+  ).then(
     function (response) {
       let userData = response;
 
@@ -32,7 +57,7 @@ function fetchGitHubInformation(event) {
 
       // The generated HTML code is added to the element with the ID gh-user-data, replacing the
       // loading spinner. The user's GitHub information is now displayed on the page.
-      $("#gh-user-data").html(userInformationHtml(userData));
+      $("#gh-user-data").html(userInformationHTML(userData));
     },
 
     // If the request encounters an error, the error response is captured in the errorResponse
