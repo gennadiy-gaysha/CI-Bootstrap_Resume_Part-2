@@ -36,18 +36,22 @@ function fetchGitHubInformation(event) {
   			<img src="assets/css/loader.gif" alt="loading..." />
      </div>`
   );
-
+  const token =
+    "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";
   // Promise: It makes an AJAX request to the GitHub API using the $.getJSON() function and
   // the provided GitHub username. The $.when() function is used to ensure that the request
   // completes before executing the next steps.
-  $.when(
-    $.getJSON(`https://api.github.com/users/${username}`, {
-      headers: {
-        Authorization:
-          "Bearer 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",
-      },
-    })
-  ).then(
+
+  // In this updated code, the $.ajax() function is used instead of $.getJSON() to have more control over
+  // the headers. The headers are set within the headers property of the $.ajax() function, ensuring that
+  // they are correctly included in the request.
+  $.ajax({
+    url: `https://api.github.com/users/${username}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  }).then(
     function (response) {
       let userData = response;
 
