@@ -38,6 +38,8 @@ function repoInformationHTML(repos) {
 }
 
 function fetchGitHubInformation(event) {
+  $("#gh-user-data").html("");
+  $("#gh-repo-data").html("");
   // retrieves the value entered in an input field with the ID gh-username.
   // This value represents the GitHub username that the user wants to fetch
   // information about.
@@ -112,3 +114,14 @@ function fetchGitHubInformation(event) {
     }
   );
 }
+
+// $(document) selects the entire HTML document.
+// .ready() is a jQuery method that allows you to specify a function to be executed when the
+// document is fully loaded.
+// fetchGitHubInformation is the function that will be executed when the document is ready.
+
+// By using $(document).ready(fetchGitHubInformation), you are instructing jQuery to call the
+// fetchGitHubInformation function once the HTML document has finished loading. This ensures
+// that the JavaScript code will be executed at the appropriate time, after all the necessary
+// elements on the page have been loaded and are ready to be manipulated.
+$(document).ready(fetchGitHubInformation);
