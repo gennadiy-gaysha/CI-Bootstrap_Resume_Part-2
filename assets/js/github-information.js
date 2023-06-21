@@ -69,18 +69,18 @@ function fetchGitHubInformation(event) {
   // they are correctly included in the request.
   const userRequest = $.ajax({
     url: `https://api.github.com/users/${username}`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
+    //  headers: {
+    //    Authorization: `Bearer ${token}`,
+    //    "X-GitHub-Api-Version": "2022-11-28",
+    //  },
   });
 
   const repoRequest = $.ajax({
     url: `https://api.github.com/users/${username}/repos`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
+    //  headers: {
+    //    Authorization: `Bearer ${token}`,
+    //    "X-GitHub-Api-Version": "2022-11-28",
+    //  },
   });
 
   $.when(userRequest, repoRequest).then(
@@ -103,8 +103,13 @@ function fetchGitHubInformation(event) {
     function (errorResponse) {
       // If it is a "404" status (user not found), a corresponding message is displayed in the
       // gh-user-data element.
-      if (errorResponse.status === "404") {
+      if (errorResponse.status === 404) {
         $("#gh-user-data").html(`<h2>No info found for user ${username}</h2>`);
+      } else if (errorResponse.status === 403) {
+        let resetTime = new Date(errorResponse.getResponseHeader("X-RateLimit-Reset") * 1000);
+        $("#gh-user-data").html(
+          `<h4>Too many requests, please wait until ${resetTime.toLocaleTimeString()}</h4>`
+        );
       } else {
         // Otherwise, the error message from the response is logged to the console, and an error
         // message is displayed in the gh-user-data element.
